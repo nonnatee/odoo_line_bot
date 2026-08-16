@@ -181,3 +181,18 @@ class LineBotChannel(models.Model):
             return pills if isinstance(pills, list) else []
         except Exception:
             return []
+
+    def action_open_push_wizard(self):
+        """Open push wizard for this channel."""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': f'Send LINE Push Message ({self.name})',
+            'res_model': 'line.push.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_channel_id': self.id,
+            },
+        }
+

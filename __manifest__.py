@@ -29,6 +29,8 @@ Key Features:
         'security/res_groups.xml',
         'security/ir.model.access.csv',
         'data/default_templates.xml',
+        'wizards/line_push_wizard_views.xml',
+        'wizards/test_channel_wizard_views.xml',
         'views/line_bot_channel_views.xml',
         'views/line_bot_user_views.xml',
         'views/line_bot_conversation_views.xml',
@@ -36,8 +38,6 @@ Key Features:
         'views/discuss_channel_views.xml',
         'views/res_partner_views.xml',
         'views/res_config_settings_views.xml',
-        'wizards/line_push_wizard_views.xml',
-        'wizards/test_channel_wizard_views.xml',
         'views/menus.xml',
     ],
     'external_dependencies': {

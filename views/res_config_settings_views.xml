@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_line" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.line</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="90"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="LINE Bot" string="LINE Bot" name="odoo_line_bot">
+                    <block title="LINE Official Account Gateway" name="line_bot_settings_block">
+                        <setting id="default_line_channel" string="Default Channel" help="Default LINE Channel for general outbound messages">
+                            <field name="line_default_channel_id"/>
+                        </setting>
+                        <setting id="global_webhook_base" string="Public HTTPS Base URL" help="Base URL used for constructing webhook endpoints">
+                            <field name="line_webhook_base_url" placeholder="https://odoo.yourcompany.com"/>
+                        </setting>
+                        <setting id="partner_sync" string="Auto-Create Contacts" help="Automatically create CRM/Customer contacts when new LINE users interact">
+                            <field name="line_auto_create_partner"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_line_bot_config_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'odoo_line_bot'}</field>
+    </record>
+</odoo>

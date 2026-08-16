@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_line_bot_channel_user,line.bot.channel.user,model_line_bot_channel,group_line_bot_user,1,0,0,0
+access_line_bot_channel_manager,line.bot.channel.manager,model_line_bot_channel,group_line_bot_manager,1,1,1,1
+access_line_bot_user_user,line.bot.user.user,model_line_bot_user,group_line_bot_user,1,1,1,0
+access_line_bot_user_manager,line.bot.user.manager,model_line_bot_user,group_line_bot_manager,1,1,1,1
+access_line_bot_conversation_user,line.bot.conversation.user,model_line_bot_conversation,group_line_bot_user,1,1,1,0
+access_line_bot_conversation_manager,line.bot.conversation.manager,model_line_bot_conversation,group_line_bot_manager,1,1,1,1
+access_line_bot_message_user,line.bot.message.user,model_line_bot_message,group_line_bot_user,1,1,1,0
+access_line_bot_message_manager,line.bot.message.manager,model_line_bot_message,group_line_bot_manager,1,1,1,1
+access_line_rich_menu_user,line.rich.menu.user,model_line_rich_menu,group_line_bot_user,1,0,0,0
+access_line_rich_menu_manager,line.rich.menu.manager,model_line_rich_menu,group_line_bot_manager,1,1,1,1
+access_line_rich_menu_area_user,line.rich.menu.area.user,model_line_rich_menu_area,group_line_bot_user,1,0,0,0
+access_line_rich_menu_area_manager,line.rich.menu.area.manager,model_line_rich_menu_area,group_line_bot_manager,1,1,1,1
+access_line_push_wizard_user,line.push.wizard.user,model_line_push_wizard,group_line_bot_user,1,1,1,1
+access_line_test_channel_wizard_user,line.test.channel.wizard.user,model_line_test_channel_wizard,group_line_bot_user,1,1,1,1

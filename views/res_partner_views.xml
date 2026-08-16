@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_inherit_line" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.line</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button class="oe_stat_button" type="object" name="action_send_line_push" icon="fa-commenting-o" invisible="line_user_count == 0">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value"><field name="line_user_count"/></span>
+                        <span class="o_stat_text">LINE Chat</span>
+                    </div>
+                </button>
+            </div>
+            <notebook position="inside">
+                <page string="LINE Bot" name="line_bot_page" invisible="line_user_count == 0 and not line_bot_user_ids">
+                    <group>
+                        <group string="Primary LINE Account">
+                            <field name="line_display_name" readonly="1"/>
+                            <field name="line_avatar_url" widget="url" readonly="1" invisible="not line_avatar_url"/>
+                        </group>
+                    </group>
+                    <field name="line_bot_user_ids" readonly="1">
+                        <list>
+                            <field name="display_name"/>
+                            <field name="channel_id"/>
+                            <field name="is_followed" widget="boolean_toggle"/>
+                            <field name="last_interaction_date"/>
+                        </list>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

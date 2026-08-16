@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_line_bot_conversation_list" model="ir.ui.view">
+        <field name="name">line.bot.conversation.list</field>
+        <field name="model">line.bot.conversation</field>
+        <field name="arch" type="xml">
+            <list string="LINE Conversations" decoration-warning="state == 'human'">
+                <field name="name"/>
+                <field name="channel_id"/>
+                <field name="partner_id"/>
+                <field name="state" widget="badge" decoration-info="state == 'bot'" decoration-warning="state == 'human'"/>
+                <field name="operator_id"/>
+                <field name="message_count"/>
+                <field name="last_message_date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_line_bot_conversation_form" model="ir.ui.view">
+        <field name="name">line.bot.conversation.form</field>
+        <field name="model">line.bot.conversation</field>
+        <field name="arch" type="xml">
+            <form string="LINE Conversation Session">
+                <header>
+                    <button name="action_switch_to_human" type="object" string="Take Over (Live Agent)" class="btn-warning" icon="fa-user" invisible="state == 'human'"/>
+                    <button name="action_switch_to_bot" type="object" string="Resume AI Bot" class="btn-primary" icon="fa-android" invisible="state == 'bot'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+
+                    <group>
+                        <group string="Session Metadata">
+                            <field name="channel_id" readonly="1"/>
+                            <field name="line_user_id" readonly="1"/>
+                            <field name="partner_id"/>
+                            <field name="operator_id" readonly="1" invisible="not operator_id"/>
+                        </group>
+                        <group string="Odoo Discuss Bridge">
+                            <field name="discuss_channel_id" readonly="1"/>
+                            <field name="last_message_date" readonly="1"/>
+                            <field name="message_count" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Chat History &amp; Message Log" name="messages">
+                            <field name="message_ids" readonly="1">
+                                <list default_order="create_date asc">
+                                    <field name="create_date" string="Time"/>
+                                    <field name="role" widget="badge" decoration-info="role == 'assistant'" decoration-primary="role == 'user'" decoration-warning="role == 'operator'"/>
+                                    <field name="content"/>
+                                    <field name="tool_used" optional="show"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_line_bot_conversation_search" model="ir.ui.view">
+        <field name="name">line.bot.conversation.search</field>
+        <field name="model">line.bot.conversation</field>
+        <field name="arch" type="xml">
+            <search string="Search Conversations">
+                <field name="name"/>
+                <field name="line_user_id"/>
+                <field name="partner_id"/>
+                <filter string="Live Agent Needed / Active" name="filter_human" domain="[('state', '=', 'human')]"/>
+                <filter string="AI Bot Active" name="filter_bot" domain="[('state', '=', 'bot')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Conversation Mode" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="LINE Channel" name="group_channel" context="{'group_by': 'channel_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_line_bot_conversation" model="ir.actions.act_window">
+        <field name="name">LINE Conversations</field>
+        <field name="res_model">line.bot.conversation</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_line_bot_conversation_search"/>
+    </record>
+</odoo>

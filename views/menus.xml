@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root Menu -->
+    <menuitem
+        id="menu_line_bot_root"
+        name="LINE Bot"
+        sequence="55"
+        web_icon="odoo_line_bot,static/description/icon.png"
+        groups="group_line_bot_user"/>
+
+    <!-- Operations / Chats -->
+    <menuitem
+        id="menu_line_bot_conversations"
+        name="Conversations"
+        parent="menu_line_bot_root"
+        action="action_line_bot_conversation"
+        sequence="10"
+        groups="group_line_bot_user"/>
+
+    <menuitem
+        id="menu_line_bot_users"
+        name="Followers"
+        parent="menu_line_bot_root"
+        action="action_line_bot_user"
+        sequence="20"
+        groups="group_line_bot_user"/>
+
+    <menuitem
+        id="menu_line_bot_push"
+        name="Send Push"
+        parent="menu_line_bot_root"
+        action="action_line_push_wizard"
+        sequence="30"
+        groups="group_line_bot_user"/>
+
+    <!-- Configuration -->
+    <menuitem
+        id="menu_line_bot_config_parent"
+        name="Configuration"
+        parent="menu_line_bot_root"
+        sequence="100"
+        groups="group_line_bot_manager"/>
+
+    <menuitem
+        id="menu_line_bot_channels"
+        name="Channels"
+        parent="menu_line_bot_config_parent"
+        action="action_line_bot_channel"
+        sequence="10"
+        groups="group_line_bot_manager"/>
+
+    <menuitem
+        id="menu_line_bot_rich_menus"
+        name="Rich Menus"
+        parent="menu_line_bot_config_parent"
+        action="action_line_rich_menu"
+        sequence="20"
+        groups="group_line_bot_manager"/>
+
+    <menuitem
+        id="menu_line_bot_settings"
+        name="Settings"
+        parent="menu_line_bot_config_parent"
+        action="action_line_bot_config_settings"
+        sequence="30"
+        groups="group_line_bot_manager"/>
+</odoo>

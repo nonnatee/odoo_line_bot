@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_line_push_wizard_form" model="ir.ui.view">
+        <field name="name">line.push.wizard.form</field>
+        <field name="model">line.push.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Send LINE Message">
+                <sheet>
+                    <group>
+                        <group string="Channel &amp; Target">
+                            <field name="channel_id"/>
+                            <field name="target_type" widget="radio"/>
+                            <field name="line_user_id" invisible="target_type != 'single'" required="target_type == 'single'"/>
+                            <field name="partner_id" invisible="target_type != 'partner'" required="target_type == 'partner'"/>
+                        </group>
+                        <group string="Message Format">
+                            <field name="message_type"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Message Content" invisible="message_type != 'text'">
+                            <field name="text_message" placeholder="Type your notification or message here..."/>
+                        </page>
+                        <page string="Sales Order Selection" invisible="message_type != 'sale_order'">
+                            <field name="sale_order_id" options="{'no_create': True}"/>
+                        </page>
+                        <page string="Invoice Selection" invisible="message_type != 'invoice'">
+                            <field name="invoice_id" options="{'no_create': True}"/>
+                        </page>
+                        <page string="Product Selection" invisible="message_type != 'product'">
+                            <field name="product_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        </page>
+                        <page string="Custom Flex JSON" invisible="message_type != 'custom_flex'">
+                            <field name="custom_flex_json" placeholder='{"type": "bubble", "body": {...}}'/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="action_send_push" type="object" string="Send Push Message" class="btn-primary" icon="fa-paper-plane"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_line_push_wizard" model="ir.actions.act_window">
+        <field name="name">Send LINE Push Message</field>
+        <field name="res_model">line.push.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- System Parameters default setup -->
+        <record id="param_line_bot_auto_create" model="ir.config_parameter">
+            <field name="key">line_bot.auto_create_partner</field>
+            <field name="value">True</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_line_rich_menu_list" model="ir.ui.view">
+        <field name="name">line.rich.menu.list</field>
+        <field name="model">line.rich.menu</field>
+        <field name="arch" type="xml">
+            <list string="LINE Rich Menus">
+                <field name="name"/>
+                <field name="channel_id"/>
+                <field name="chat_bar_text"/>
+                <field name="size_type"/>
+                <field name="is_default" widget="boolean_toggle"/>
+                <field name="status" widget="badge" decoration-success="status == 'published'" decoration-muted="status == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_line_rich_menu_form" model="ir.ui.view">
+        <field name="name">line.rich.menu.form</field>
+        <field name="model">line.rich.menu</field>
+        <field name="arch" type="xml">
+            <form string="LINE Rich Menu">
+                <header>
+                    <button name="action_publish_to_line" type="object" string="Publish to LINE" class="btn-primary" icon="fa-upload" invisible="status == 'published'"/>
+                    <button name="action_delete_from_line" type="object" string="Delete from LINE" class="btn-danger" icon="fa-trash" invisible="status != 'published'"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. Main Navigation Menu"/></h1>
+                    </div>
+
+                    <group>
+                        <group string="Configuration">
+                            <field name="channel_id"/>
+                            <field name="chat_bar_text"/>
+                            <field name="size_type"/>
+                            <field name="is_default"/>
+                            <field name="rich_menu_id" readonly="1" invisible="not rich_menu_id"/>
+                        </group>
+                        <group string="Menu Image Asset">
+                            <field name="image" widget="image" options="{'size': [300, 200]}" filename="image_filename"/>
+                            <field name="image_filename" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Tap Action Areas" name="areas">
+                            <field name="area_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="bounds_x"/>
+                                    <field name="bounds_y"/>
+                                    <field name="bounds_width"/>
+                                    <field name="bounds_height"/>
+                                    <field name="action_type"/>
+                                    <field name="action_text" invisible="action_type not in ('message', 'postback')"/>
+                                    <field name="action_uri" invisible="action_type != 'uri'"/>
+                                    <field name="action_data" invisible="action_type != 'postback'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_line_rich_menu" model="ir.actions.act_window">
+        <field name="name">Rich Menus</field>
+        <field name="res_model">line.rich.menu</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

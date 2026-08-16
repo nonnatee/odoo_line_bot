@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_line_test_channel_wizard_form" model="ir.ui.view">
+        <field name="name">line.test.channel.wizard.form</field>
+        <field name="model">line.test.channel.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Test LINE Channel Connection">
+                <sheet>
+                    <group>
+                        <field name="channel_id" readonly="1"/>
+                        <field name="test_type" widget="radio"/>
+                        <field name="result_status" widget="badge" decoration-success="result_status == 'success'" decoration-danger="result_status == 'failed'"/>
+                    </group>
+                    <group string="Diagnostic Output" invisible="not result_details">
+                        <field name="result_details" widget="ace" options="{'mode': 'json'}"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_run_test" type="object" string="Run Diagnostic Test" class="btn-primary" icon="fa-play"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

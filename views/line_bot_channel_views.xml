@@ -106,12 +106,13 @@
         <field name="name">line.bot.channel.search</field>
         <field name="model">line.bot.channel</field>
         <field name="arch" type="xml">
-            <search string="Search Channels">
+            <search>
                 <field name="name"/>
                 <field name="channel_id"/>
                 <field name="basic_id"/>
+                <separator/>
                 <filter string="Active &amp; Connected" name="active_channels" domain="[('status', '=', 'active')]"/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
                     <filter string="Routing Mode" name="group_mode" context="{'group_by': 'routing_mode'}"/>
                 </group>

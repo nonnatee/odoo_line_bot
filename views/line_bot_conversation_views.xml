@@ -69,13 +69,14 @@
         <field name="name">line.bot.conversation.search</field>
         <field name="model">line.bot.conversation</field>
         <field name="arch" type="xml">
-            <search string="Search Conversations">
+            <search>
                 <field name="name"/>
                 <field name="line_user_id"/>
                 <field name="partner_id"/>
+                <separator/>
                 <filter string="Live Agent Needed / Active" name="filter_human" domain="[('state', '=', 'human')]"/>
                 <filter string="AI Bot Active" name="filter_bot" domain="[('state', '=', 'bot')]"/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter string="Conversation Mode" name="group_state" context="{'group_by': 'state'}"/>
                     <filter string="LINE Channel" name="group_channel" context="{'group_by': 'channel_id'}"/>
                 </group>

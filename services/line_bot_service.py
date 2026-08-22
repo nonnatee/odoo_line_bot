@@ -197,26 +197,29 @@ class LineBotService:
         # ── Built-in Quick Shortcuts (Flex UI) ──
         lower = user_text.lower()
         if partner and any(k in lower for k in ('my orders', 'order status', 'orders', 'ใบสั่งซื้อ', 'คำสั่งซื้อ')):
-            orders = self.env['sale.order'].sudo().search(
-                [('partner_id', '=', partner.id)], order='date_order desc', limit=1
-            )
-            if orders:
-                return build_sale_order_flex(orders[0], currency, web_base)
+            if 'sale.order' in self.env:
+                orders = self.env['sale.order'].sudo().search(
+                    [('partner_id', '=', partner.id)], order='date_order desc', limit=1
+                )
+                if orders:
+                    return build_sale_order_flex(orders[0], currency, web_base)
 
         if partner and any(k in lower for k in ('my invoices', 'invoice', 'balance', 'ใบแจ้งหนี้', 'ยอดค้างชำระ')):
-            invoices = self.env['account.move'].sudo().search(
-                [('partner_id', '=', partner.id), ('move_type', '=', 'out_invoice')],
-                order='invoice_date desc', limit=1
-            )
-            if invoices:
-                return build_invoice_flex(invoices[0], currency, web_base)
+            if 'account.move' in self.env:
+                invoices = self.env['account.move'].sudo().search(
+                    [('partner_id', '=', partner.id), ('move_type', '=', 'out_invoice')],
+                    order='invoice_date desc', limit=1
+                )
+                if invoices:
+                    return build_invoice_flex(invoices[0], currency, web_base)
 
         if any(k in lower for k in ('products', 'catalog', 'สินค้า', 'แคตตาล็อก')):
-            products = self.env['product.template'].sudo().search(
-                [('sale_ok', '=', True)], limit=6
-            )
-            if products:
-                return build_product_catalog_carousel(products, currency, web_base)
+            if 'product.template' in self.env:
+                products = self.env['product.template'].sudo().search(
+                    [('sale_ok', '=', True)], limit=6
+                )
+                if products:
+                    return build_product_catalog_carousel(products, currency, web_base)
 
         # ── Check MCP Gateway Bridge (odoo_mcp_manager) ──
         if channel.ai_engine_mode in ('mcp', 'auto'):

@@ -18,14 +18,12 @@ Key Features:
 * **Push Notification Service**: Targeted push messages and Flex cards for sales, marketing, and notifications.
 * **Rich Menu Designer**: Configure and publish persistent navigation menus directly to LINE.
     """,
-    'author': 'Antigravity AI',
-    'website': 'https://github.com/odoo-line-bot',
+    'author': 'Nonnatee Kanjana',
+    'website': 'https://github.com/nonnatee/odoo_line_bot',
     'depends': [
         'base',
         'mail',
         'web',
-        'sale_management',
-        'account',
     ],
     'data': [
         'security/res_groups.xml',

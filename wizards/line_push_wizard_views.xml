@@ -22,14 +22,8 @@
                         <page string="Message Content" invisible="message_type != 'text'">
                             <field name="text_message" placeholder="Type your notification or message here..."/>
                         </page>
-                        <page string="Sales Order Selection" invisible="message_type != 'sale_order'">
-                            <field name="sale_order_id" options="{'no_create': True}"/>
-                        </page>
-                        <page string="Invoice Selection" invisible="message_type != 'invoice'">
-                            <field name="invoice_id" options="{'no_create': True}"/>
-                        </page>
-                        <page string="Product Selection" invisible="message_type != 'product'">
-                            <field name="product_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        <page string="Record Selection" invisible="message_type != 'record'">
+                            <field name="record_ref" options="{'no_create': True}"/>
                         </page>
                         <page string="Custom Flex JSON" invisible="message_type != 'custom_flex'">
                             <field name="custom_flex_json" placeholder='{"type": "bubble", "body": {...}}'/>

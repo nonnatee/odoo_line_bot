@@ -30,18 +30,28 @@ class LinePushWizard(models.TransientModel):
     line_user_id = fields.Many2one('line.bot.user', string='LINE Recipient')
     partner_id = fields.Many2one('res.partner', string='Contact')
 
+    @api.model
+    def _selection_target_model(self):
+        models = []
+        if 'sale.order' in self.env:
+            models.append(('sale.order', 'Sales Order / Quotation'))
+        if 'account.move' in self.env:
+            models.append(('account.move', 'Customer Invoice'))
+        if 'product.template' in self.env:
+            models.append(('product.template', 'Product'))
+        return models
+
     message_type = fields.Selection([
         ('text', 'Plain Text Message'),
-        ('sale_order', 'Sales Order / Quotation Flex Card'),
-        ('invoice', 'Invoice & Payment Flex Card'),
-        ('product', 'Product Catalog Carousel'),
+        ('record', 'Odoo Record Flex Card (Order / Invoice / Product)'),
         ('custom_flex', 'Custom Flex JSON Payload'),
     ], default='text', required=True, string='Message Content Type')
 
     text_message = fields.Text(string='Message Text', default='Hello! We have an update regarding your account.')
-    sale_order_id = fields.Many2one('sale.order', string='Select Sales Order')
-    invoice_id = fields.Many2one('account.move', string='Select Invoice', domain="[('move_type', '=', 'out_invoice')]")
-    product_ids = fields.Many2many('product.template', string='Select Products (up to 10)', domain="[('sale_ok', '=', True)]")
+    record_ref = fields.Reference(
+        selection='_selection_target_model',
+        string='Select Document / Record',
+    )
     custom_flex_json = fields.Text(string='Custom Flex JSON', help='Raw Flex JSON bubble/carousel')
 
     @api.onchange('partner_id')
@@ -73,20 +83,18 @@ class LinePushWizard(models.TransientModel):
                 raise UserError('Please enter a message text.')
             payload = build_text_message(self.text_message)
 
-        elif self.message_type == 'sale_order':
-            if not self.sale_order_id:
-                raise UserError('Please select a Sales Order.')
-            payload = build_sale_order_flex(self.sale_order_id, currency, web_base)
-
-        elif self.message_type == 'invoice':
-            if not self.invoice_id:
-                raise UserError('Please select an Invoice.')
-            payload = build_invoice_flex(self.invoice_id, currency, web_base)
-
-        elif self.message_type == 'product':
-            if not self.product_ids:
-                raise UserError('Please select at least one product.')
-            payload = build_product_catalog_carousel(self.product_ids, currency, web_base)
+        elif self.message_type == 'record':
+            if not self.record_ref:
+                raise UserError('Please select a record to send.')
+            model_name = self.record_ref._name
+            if model_name == 'sale.order':
+                payload = build_sale_order_flex(self.record_ref, currency, web_base)
+            elif model_name == 'account.move':
+                payload = build_invoice_flex(self.record_ref, currency, web_base)
+            elif model_name == 'product.template':
+                payload = build_product_catalog_carousel([self.record_ref], currency, web_base)
+            else:
+                raise UserError(f'Unsupported record model: {model_name}')
 
         elif self.message_type == 'custom_flex':
             try:

@@ -24,6 +24,8 @@ Key Features:
         'base',
         'mail',
         'web',
+        'sale_management',
+        'account',
     ],
     'data': [
         'security/res_groups.xml',
